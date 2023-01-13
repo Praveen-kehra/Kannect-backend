@@ -42,13 +42,11 @@ router.get("/verify/:userId/:uniqueString", async (req, res) => {
     try {
         const verifiedUser = await UserVerification.findOne({ userId });
         if (!verifiedUser) {
-            console.log("User not found 1");
             res.status(404).json("No User registration exists for this email.");
             return false;
         }
         const user = await User.findOne({ _id: userId });
         if (!user) {
-            console.log("User not found 2");
             res.status(404).json("User not found.");
             return false;
         }
@@ -73,7 +71,6 @@ router.get("/verify/:userId/:uniqueString", async (req, res) => {
             }
         });
     } catch (error) {
-        console.log(error)
         return res.status(500).json(error);
     }
 })
@@ -97,10 +94,8 @@ router.put('/update/:userId', verify, async (req, res) => {
         $set: updates,
     }, (error, results)=>{
         if(error){
-            console.log(error); 
             res.status(400).json("Server error.");
         } else {
-            console.log(results);
             res.status(200).json("Account updated.");
         }
     });

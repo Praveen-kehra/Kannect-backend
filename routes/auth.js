@@ -74,8 +74,6 @@ router.post('/register', async (req, res) => {
 
 //LOGIN
 router.post("/login", async (req, res) => {
-    console.log("clicked");
-    // console.log(req.body);
     try {
         const user = await User.findOne({ email: req.body.email.toLowerCase() });
         if (!user) {
@@ -100,7 +98,6 @@ router.post("/login", async (req, res) => {
         // }
         
     } catch (error) {
-        console.log(error);
         res.status(500).json(error);
     }
 });
