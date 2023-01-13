@@ -11,7 +11,7 @@ const getOtp = () => {
 
 const sendVerificationEmail = async (reqUser, res, baseUrl) => {
     const { _id, email } = reqUser;
-    console.log(_id);
+    // console.log(email);
     const uniqueString = uuidv4() + _id
     try {
         const transporter = nodemailer.createTransport({
@@ -25,8 +25,9 @@ const sendVerificationEmail = async (reqUser, res, baseUrl) => {
             from: process.env.ADMIN_EMAIL,
             to: email.toLowerCase(),
             subject: 'OTP verification for Kannect registration',
-            html: `Click <a  target="_blank" href=${baseUrl + "/api/users/verify/" + _id + "/" + uniqueString}>here</a> to verify for <b>Kannect</b> registration.`
+            html: `Click <a target="_blank" href=${baseUrl + "/api/users/verify/" + _id + "/" + uniqueString}>here</a> to verify for <b>Kannect</b> registration.`
         };
+        console.log(mailOptions);
         const salt = await bcrypt.genSalt(8);
         const hashedUniqueString = await bcrypt.hash(uniqueString, salt);
         const newUserVerification = new UserVerification({
@@ -40,13 +41,16 @@ const sendVerificationEmail = async (reqUser, res, baseUrl) => {
 
         transporter.sendMail(mailOptions, function (error, info) {
             if (error) {
-                return res.status(500).json("Something went wrong. Please check email or try again.");
+                console.log('Error occurred');
+                console.log(error.message);
+                return res.json({isMailsent: false});
             } else {
-                return res.status(200).json("Verification link sent.");
+                transporter.close();
+                return res.json("Verification link sent.");
             }
         })
     } catch (error) {
-        res.status(500).json("Something went wrong. Please check email or try again.");
+        console("Something went wrong. Please check email or try again.");
     }
 }
 

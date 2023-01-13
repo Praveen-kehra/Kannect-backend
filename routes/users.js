@@ -33,6 +33,7 @@ router.get("/contains/:text", async (req, res) => {
         
         res.status(200).json(ans);
     } catch(err){
+        console.log(err);
         res.status(500).json(err);
     }
 })
@@ -73,7 +74,6 @@ router.get("/verify/:userId/:uniqueString", async (req, res) => {
             }
         });
     } catch (error) {
-        console.log(error)
         return res.status(500).json(error);
     }
 })
