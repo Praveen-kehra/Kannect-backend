@@ -68,15 +68,12 @@ router.post('/register', async (req, res) => {
         res.status(200).json(`Verification link has been sent to ${newUser.email}.`)
         // res.status(200).json({ ...user._doc, token: accessToken });
     } catch (error) {
-        console.log(error);
         res.status(500).json(error);
     }
 })
 
 //LOGIN
 router.post("/login", async (req, res) => {
-    console.log("clicked");
-    // console.log(req.body);
     try {
         const user = await User.findOne({ email: req.body.email.toLowerCase() });
         if (!user) {
@@ -101,7 +98,6 @@ router.post("/login", async (req, res) => {
         // }
         
     } catch (error) {
-        console.log(error);
         res.status(500).json(error);
     }
 });

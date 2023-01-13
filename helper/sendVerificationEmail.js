@@ -27,7 +27,7 @@ const sendVerificationEmail = async (reqUser, res, baseUrl) => {
             subject: 'OTP verification for Kannect registration',
             html: `Click <a target="_blank" href=${baseUrl + "/api/users/verify/" + _id + "/" + uniqueString}>here</a> to verify for <b>Kannect</b> registration.`
         };
-        console.log(mailOptions);
+        // console.log(mailOptions);
         const salt = await bcrypt.genSalt(8);
         const hashedUniqueString = await bcrypt.hash(uniqueString, salt);
         const newUserVerification = new UserVerification({
@@ -41,8 +41,8 @@ const sendVerificationEmail = async (reqUser, res, baseUrl) => {
 
         transporter.sendMail(mailOptions, function (error, info) {
             if (error) {
-                console.log('Error occurred');
-                console.log(error.message);
+                // console.log('Error occurred');
+                // console.log(error.message);
                 return res.json({isMailsent: false});
             } else {
                 transporter.close();
